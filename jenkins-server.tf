@@ -16,7 +16,7 @@ data "aws_ami" "latest-amazon-linux-image" {
 resource "aws_instance" "myapp-server" {
   ami                         = data.aws_ami.latest-amazon-linux-image.id
   instance_type               = var.instance_type
-  key_name                    = "eks-tf-poc-key"
+  key_name                    = "docker-poc"
   subnet_id                   = aws_subnet.myapp-subnet-1.id
   vpc_security_group_ids      = [aws_default_security_group.default-sg.id]
   availability_zone           = var.avail_zone
@@ -34,7 +34,7 @@ resource "null_resource" "name" {
   connection {
     type        = "ssh"
     user        = "ec2-user"
-    private_key = file("~/Downloads/eks-tf-poc-key.pem")
+    private_key = file("~/Downloads/docker-poc.pem")
     host        = aws_instance.myapp-server.public_ip
   }
 
